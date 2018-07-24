@@ -19,6 +19,7 @@ private:
 	Player p1, p2;
 
 	void keyPressed(SDL_Event &e, Engine* engine);
+	void resetBats();
 
 public:
 	Game(MediaCache& mc, const int numPlayers);

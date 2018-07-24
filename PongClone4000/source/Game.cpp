@@ -42,14 +42,14 @@ void Game::update(const double dTime, Engine* )
 	if (ballMove == 1)
 	{
 		ball->reset(static_cast<int>(rightBat->getPosition().x) - rightBat->getWidth(), mediaCache.getScrHeight());
-		leftBat->reset(mediaCache.getScrHeight());
+		resetBats();
 		p1.hasScored();
 	}
 	//rightBat=p2 has scored
 	else if (ballMove == 2)
 	{
 		ball->reset(static_cast<int>(leftBat->getPosition().x) + leftBat->getWidth(), mediaCache.getScrHeight());
-		rightBat->reset(mediaCache.getScrHeight());
+		resetBats();
 		p2.hasScored();
 	}
 }
@@ -87,7 +87,7 @@ void Game::keyPressed(SDL_Event &e, Engine*)
 			case SDLK_w:
 			{
 				leftBat->setDirectionY(-1);
-				if (!ball->isMoving())
+				if (!ball->isMoving() && ball->getPosition().x < mediaCache.getScrWidth() / 2)
 				{
 					ball->startMoving(1, -1);
 
@@ -97,7 +97,7 @@ void Game::keyPressed(SDL_Event &e, Engine*)
 			case SDLK_s:
 			{
 				leftBat->setDirectionY(1);
-				if (!ball->isMoving())
+				if (!ball->isMoving() && ball->getPosition().x < mediaCache.getScrWidth() / 2)
 				{
 					ball->startMoving(1, 1);
 				}
@@ -111,9 +111,17 @@ void Game::keyPressed(SDL_Event &e, Engine*)
 			{
 			case SDLK_UP:
 				rightBat->setDirectionY(-1);
+				if (!ball->isMoving() && ball->getPosition().x > mediaCache.getScrWidth() / 2)
+				{
+					ball->startMoving(1, -1);
+				}
 				break;
 			case SDLK_DOWN:
 				rightBat->setDirectionY(1);
+				if (!ball->isMoving() && ball->getPosition().x > mediaCache.getScrWidth() / 2)
+				{
+					ball->startMoving(1, 1);
+				}
 				break;
 			}
 		}
@@ -139,4 +147,10 @@ void Game::keyPressed(SDL_Event &e, Engine*)
 			}
 		}
 	}
+}
+
+void Game::resetBats()
+{
+	leftBat->reset(mediaCache.getScrHeight());
+	rightBat->reset(mediaCache.getScrHeight());
 }
