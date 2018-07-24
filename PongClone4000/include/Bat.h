@@ -18,8 +18,8 @@ public:
 	const SDL_Color& getColor() { return color; }
 	const SDL_Rect& getBox();
 	const int getWidth() { return batWidth;	}
-	void move(const int scrHeight, const double deltaTime);
-	void setDirection(const Vector2D newDir);
-	void setDirectionX(const int newX);
+	void move(const int scrHeight, const int scrWidth, const Vector2D& ballDir, const Point2D& ballPos, const double deltaTime);
+	void setDirection(const Vector2D& newDir);
 	void setDirectionY(const int newY);
+	void reset(const int scrHeight);
 };

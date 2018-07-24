@@ -16,36 +16,38 @@ const Point2D Ball::getPosition()
 	return { position.x - radius, position.y - radius };
 }
 
-void Ball::move(const int scrHeight, const int scrWidth, const SDL_Rect& leftBat, const SDL_Rect& rightBat, const double dTime)
+int Ball::move(const int scrHeight, const int scrWidth, const SDL_Rect& leftBat, const SDL_Rect& rightBat, const double dTime)
 {
+	const double speedIncrement = 1.05;
+
 	direction.normalize();
 
+	//move the ball across, then check if it's hit a bat or gone off screen
 	position.x += direction.x * speed * dTime;
 
 	if (hasCollided(leftBat))
 	{
 		position.x = leftBat.x + leftBat.w + radius;
 		direction.x *= -1;
-		//direction.y += p1YVel * 0.005;
-		speed *= 1.05;
+		speed *= speedIncrement;
 	}
 	else if (hasCollided(rightBat))
 	{
 		position.x = rightBat.x - radius;
 		direction.x *= -1;
-		//direction.y += p2YVel * 0.005;
-		speed *= 1.05;
+		speed *= speedIncrement;
 	}
 
 	if (position.x + radius < 0)
 	{
-		direction.x *= -1;
+		return 2;
 	}
 	else if (position.x - radius > scrWidth)
 	{
-		direction.x *= -1;
+		return 1;
 	}
 
+	//move the ball up/down then check if it's off screen or hit anything
 	const double moveY = direction.y * speed * dTime;
 	position.y += moveY;
 
@@ -61,8 +63,10 @@ void Ball::move(const int scrHeight, const int scrWidth, const SDL_Rect& leftBat
 	{
 		position.y -= moveY;
 		direction.y *= -1;
-		speed *= 1.05;
+		speed *= speedIncrement;
 	}
+
+	return 0;
 }
 
 bool Ball::hasCollided(const SDL_Rect& rect) 
@@ -104,5 +108,14 @@ void Ball::startMoving(const double xDir, const double yDir)
 	direction.x = xDir * randomX;
 	direction.y = yDir * randomY;
 
-	speed = 300;
+	speed = movingSpeed;
+}
+
+void Ball::reset(const int _x, const int scrHeight)
+{
+	direction = { 0,0 };
+	position.x = _x + radius;
+	position.y = ((scrHeight - ballWidth) / 2) + radius;
+	speed = 0;
+	moving = false;
 }

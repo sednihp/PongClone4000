@@ -16,8 +16,8 @@ public:
 	Sprite(const std::string& img);
 	~Sprite();
 
-	const Point2D getPosition() const { return position; }
-	const Vector2D getDirection() const { return direction; }
+	const Point2D& getPosition() const { return position; }
+	const Vector2D& getDirection() const { return direction; }
 	const std::string& getImage() const { return image; }
 };
 
