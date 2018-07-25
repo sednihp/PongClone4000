@@ -1,2 +1,8 @@
-﻿  Game.cpp
+﻿  Ball.cpp
+  Bat.cpp
+  CollisionEngine.cpp
+  Controls.cpp
+  Game.cpp
+  Title.cpp
+  Generating Code...
   PongClone4000.vcxproj -> E:\Dropbox\Code\C++\PongClone4000\Debug\PongClone4000.exe

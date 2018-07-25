@@ -4,13 +4,12 @@
 #include "Engine.h"
 #include "Title.h"
 
-Game::Game(MediaCache& mc, 
-			const int numPlayers) : State(mc),
-									font(mediaCache.getFont(60)), playerCount(numPlayers), p1(), p2(), winningPlayer(0),
-									leftBat(std::make_unique<Bat>(1, mediaCache.getScrWidth(), mediaCache.getScrHeight())),
-									rightBat(std::make_unique<Bat>((numPlayers == 2) ? 2 : 3, mediaCache.getScrWidth(), mediaCache.getScrHeight())), 
-									ball(std::make_unique<Ball>("files/ball.bmp", static_cast<int>(leftBat->getPosition().x) + leftBat->getWidth(), mediaCache.getScrHeight())),
-									winningTex(nullptr)
+Game::Game(MediaCache& mc, const int numPlayers) : State(mc),
+													font(mediaCache.getFont(60)), playerCount(numPlayers), p1(), p2(), winningPlayer(0),
+													leftBat(std::make_unique<Bat>(1, mediaCache.getScrWidth(), mediaCache.getScrHeight())),
+													rightBat(std::make_unique<Bat>((numPlayers == 2) ? 2 : 3, mediaCache.getScrWidth(), mediaCache.getScrHeight())), 
+													ball(std::make_unique<Ball>("files/ball.bmp", static_cast<int>(leftBat->getPosition().x) + leftBat->getWidth(), mediaCache.getScrHeight())),
+													winningTex(nullptr)
 {
 	net.h = mediaCache.getScrHeight() - 20;
 	net.w = 2;
@@ -22,6 +21,9 @@ Game::Game(MediaCache& mc,
 
 	p2Tex = mediaCache.getText("P2", font, mediaCache.getTextColor());
 	p2Tex->setPosition(mediaCache.getScrWidth() - p2Tex->getW(), mediaCache.getScrHeight() - p2Tex->getH());
+
+	pauseTex = mediaCache.getText("Pause", font, mediaCache.getTextColor());
+	menuTex = mediaCache.getText("Menu", font, mediaCache.getTextColor());
 
 	playAgainTex = mediaCache.getText("Play Again", font, mediaCache.getTextColor());
 	playAgainTex->setPosition(mediaCache.centreX(playAgainTex->getW()), mediaCache.centreY(playAgainTex->getH()) + playAgainTex->getH());
@@ -44,7 +46,7 @@ void Game::handleEvents(SDL_Event &e, Engine* engine)
 {
 	keyPressed(e, engine);
 
-	if (winningPlayer)
+	if (winningPlayer > 0)
 	{
 		if (e.type == SDL_MOUSEBUTTONDOWN && winningPlayer)
 		{
@@ -185,13 +187,20 @@ void Game::mouseClicked(SDL_Event &, Engine* engine)
 
 void Game::checkIfBallMoving()
 {
+	//if the ball isn't moving and on the left of the screen, start it in the direction of the leftBat
 	if (!ball->isMoving() && ball->getPosition().x < mediaCache.getScrWidth() / 2 && leftBat->getDirection().y != 0)
 	{
 		ball->startMoving(1, leftBat->getDirection().y);
 	}
+	//if the ball isn't moving and on the right of the screen, start it in the direction of the rightBat
 	else if (!ball->isMoving() && ball->getPosition().x > mediaCache.getScrWidth() / 2 && rightBat->getDirection().y != 0)
 	{
 		ball->startMoving(-1, rightBat->getDirection().y);
+	}
+	//if the ball isn't moving and on the right of the screen, and the rightBat isn't moving and is AI controlled, start the bat moving
+	else if (!ball->isMoving() && ball->getPosition().x > mediaCache.getScrWidth() / 2 && rightBat->getID() == 3 && rightBat->getDirection().y == 0)
+	{
+		rightBat->startMoving();
 	}
 }
 

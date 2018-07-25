@@ -18,8 +18,6 @@ const Point2D Ball::getPosition()
 
 int Ball::move(const int scrHeight, const int scrWidth, const SDL_Rect& leftBat, const SDL_Rect& rightBat, const double dTime)
 {
-	const double speedIncrement = 1.05;
-
 	direction.normalize();
 
 	//move the ball across, then check if it's hit a bat or gone off screen

@@ -40,10 +40,29 @@ void Bat::move(const int scrHeight, const int scrWidth, const Vector2D& ballDir,
 		//if the ball is moving left, move the bat back to the middle
 		if (ballDir.x < 0)
 		{
-			if (position.y > centreBatY && direction.y > 0)				direction.y = 0;			else if (position.y < centreBatY && direction.y < 0)				direction.y = 0;			else if (centreBatY - position.y > batHeight / 2 && direction.y == 0)				direction.y = 1;			else if (position.y - centreBatY > batHeight / 2 && direction.y == 0)				direction.y = -1;
+			if (position.y > centreBatY && direction.y > 0)
+				direction.y = 0;
+			else if (position.y < centreBatY && direction.y < 0)
+				direction.y = 0;
+			else if (centreBatY - position.y > batHeight / 2 && direction.y == 0)
+				direction.y = 1;
+			else if (position.y - centreBatY > batHeight / 2 && direction.y == 0)
+				direction.y = -1;
 		}
 		//if the ball is moving right, try to align the centre of the bat with the centre of the ball
-		else if (ballDir.x > 0 && ballPos.x > scrWidth / 2)		{			const double centreOfBat = position.y + batHeight / 2;			if (ballPos.y < centreOfBat && direction.y > 0)				direction.y = 0;			else if (ballPos.y > centreOfBat && direction.y < 0)				direction.y = 0;			else if (ballPos.y < centreOfBat && direction.y == 0)				direction.y = -1;			else if (ballPos.y > centreOfBat && direction.y == 0)				direction.y = 1;		}
+		else if (ballDir.x > 0 && ballPos.x > scrWidth / 2)
+		{
+			const double centreOfBat = position.y + batHeight / 2;
+
+			if (ballPos.y < centreOfBat && direction.y > 0)
+				direction.y = 0;
+			else if (ballPos.y > centreOfBat && direction.y < 0)
+				direction.y = 0;
+			else if (ballPos.y < centreOfBat && direction.y == 0)
+				direction.y = -1;
+			else if (ballPos.y > centreOfBat && direction.y == 0)
+				direction.y = 1;
+		}
 	}
 
 	position.y += direction.y * speed * deltaTime;
@@ -81,4 +100,17 @@ void Bat::reset(const int scrHeight)
 	direction.y = 0;
 	box.y = (scrHeight - batHeight) / 2;
 	position.y = box.y;
+}
+
+void Bat::startMoving()
+{
+	switch (rand() % 2)
+	{
+		case 0:
+			direction.y = -1;
+			break;
+		case 1: 
+			direction.y = 1;
+			break;
+	}
 }

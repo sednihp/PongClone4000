@@ -12,6 +12,8 @@ private:
 	std::shared_ptr<GameTexture> p1Tex;
 	std::shared_ptr<GameTexture> p2Tex;
 	std::shared_ptr<GameTexture> scoreTex;
+	std::shared_ptr<GameTexture> pauseTex;
+	std::shared_ptr<GameTexture> menuTex;
 	std::shared_ptr<GameTexture> winningTex;
 	std::shared_ptr<GameTexture> playAgainTex;
 	std::shared_ptr<GameTexture> mainMenuTex;
@@ -19,7 +21,7 @@ private:
 	std::unique_ptr<Bat> rightBat;
 	std::unique_ptr<Ball> ball;
 	int playerCount, winningPlayer;
-	const int winningScore = 1;
+	const int winningScore = 3;
 	SDL_Rect net;
 	Player p1, p2;
 

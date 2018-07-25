@@ -8,6 +8,7 @@ private:
 	const int ballWidth = 20;
 	const int radius = ballWidth / 2;
 	const int movingSpeed = 400;
+	const double speedIncrement = 1.05;
 	double speed;
 
 public:
