@@ -9,17 +9,28 @@
 class Game : public State {
 private:
 	TTF_Font * font;
-	std::vector<std::shared_ptr<GameTexture>> playerNames;
-	std::shared_ptr<GameTexture> score;
+	std::shared_ptr<GameTexture> p1Tex;
+	std::shared_ptr<GameTexture> p2Tex;
+	std::shared_ptr<GameTexture> scoreTex;
+	std::shared_ptr<GameTexture> winningTex;
+	std::shared_ptr<GameTexture> playAgainTex;
+	std::shared_ptr<GameTexture> mainMenuTex;
 	std::unique_ptr<Bat> leftBat;
 	std::unique_ptr<Bat> rightBat;
 	std::unique_ptr<Ball> ball;
-	const int playerCount;
+	int playerCount, winningPlayer;
+	const int winningScore = 1;
 	SDL_Rect net;
 	Player p1, p2;
 
 	void keyPressed(SDL_Event &e, Engine* engine);
+	void mouseClicked(SDL_Event &e, Engine* engine);
+	void checkIfBallMoving();
+	void checkIfGoalScored(const int ballMove);
 	void resetBats();
+	void resetBall(const int startingPlayer);
+	void createScoreTex();
+	void renderWinningText();
 
 public:
 	Game(MediaCache& mc, const int numPlayers);
