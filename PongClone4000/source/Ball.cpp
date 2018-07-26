@@ -36,12 +36,12 @@ int Ball::move(const int scrHeight, const int scrWidth, const SDL_Rect& leftBat,
 		speed *= speedIncrement;
 	}
 
-	//gone off the left, so the rightBat has scored
+	//the ball has gone off the left side of the screen, so the rightBat has scored
 	if (position.x + radius < 0)
 	{
 		return 2;
 	}
-	//gone off the right, so leftBat has scored
+	//the ball has gone off the right side of the screen, so the leftBat has scored
 	else if (position.x - radius > scrWidth)
 	{
 		return 1;

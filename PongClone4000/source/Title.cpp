@@ -8,6 +8,7 @@ Title::Title(MediaCache &mc) : State(mc),
 								font(mediaCache.getFont(80))
 {
 	SDL_Color c = mediaCache.getTextColor();
+
 	title = mediaCache.getText("Another Pong Clone", font, c);
 	title->setPosition(mediaCache.centreX(title->getW()), 10);
 
