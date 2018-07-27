@@ -13,7 +13,7 @@ class Title : public State
 
 		Title &operator=(const Title&);
 		Title(const Title&);
-
+		
 	public:
 		Title(MediaCache &mc);
 		~Title();

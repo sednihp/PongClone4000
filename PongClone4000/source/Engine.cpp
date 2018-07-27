@@ -6,7 +6,7 @@ Engine::Engine() :	running(true),
 					deltaTime(SDL_GetTicks()),
 					mediaCache()
 {
-	srand(static_cast<unsigned int>(time(NULL)));
+	srand(static_cast<unsigned int>(time(nullptr)));
 
 	stateMachine = std::make_unique<StateMachine>(this);
 	stateMachine->setCurrentState(std::make_shared<Title>(mediaCache));
